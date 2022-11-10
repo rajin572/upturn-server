@@ -35,6 +35,14 @@ async function run(){
             res.send(result)
         })
 
+        //to post new service on the website and database
+        app.post('/services', async (req, res) =>{
+            const order = req.body;
+            const result = await serviceCollection.insertOne(order)
+            res.send(result)
+            console.log(result);
+        })
+
         // to get the chlicked data by its id 
         app.get('/services/:id', async(req, res)=>{
             const id = req.params.id
