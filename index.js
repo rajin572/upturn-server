@@ -19,18 +19,23 @@ async function run(){
         const serviceCollection = client.db("upturn").collection("services");
         const reviewCollection = client.db("upturn").collection("reviews");
 
+        // to get only 3 service data from database 
         app.get('/limitServices', async (req, res) =>{
             const query = {}
             const cursor = serviceCollection.find(query)
             const result = await cursor.limit(3).toArray()
             res.send(result)
         })
+
+        // to get all service data from database
         app.get('/services', async (req, res) =>{
             const query = {}
             const cursor = serviceCollection.find(query)
             const result = await cursor.toArray()
             res.send(result)
         })
+
+        // to get the chlicked data by its id 
         app.get('/services/:id', async(req, res)=>{
             const id = req.params.id
             const query = {_id: ObjectId(id)}
@@ -38,12 +43,15 @@ async function run(){
             res.send(service)
         })
 
+        //to post reviews on the database from the website
         app.post('/reviews', async (req, res) =>{
             const order = req.body;
             const result = await reviewCollection.insertOne(order)
             res.send(result)
             console.log(result);
         })
+
+        //to get reviews data by query from database
         app.get('/reviews', async (req, res) =>{
             let query ={}
             if(req.query.email){
@@ -59,6 +67,14 @@ async function run(){
             const cursor = reviewCollection.find(query)
             const orders = await cursor.toArray()
             res.send(orders)
+        })
+
+        //to delete a particular review from website and databse
+        app.delete('/reviews/:id', async (req, res) =>{
+            const id = req.params.id;
+            const query = {_id: ObjectId(id)}
+            const result = await reviewCollection.deleteOne(query)
+            res.send(result)
         })
     }
     finally{
