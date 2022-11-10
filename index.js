@@ -69,7 +69,7 @@ async function run(){
 
     }
 }
-run().catch(err => console.error(err))
+run().catch(error => console.error(error))
 
 
 
@@ -78,7 +78,7 @@ run().catch(err => console.error(err))
 
 
 app.get('/', (req, res) =>{
-    res.send('upturn server running')
+    res.send('upturn server is running')
 })
 
 app.listen(port, ()=>{
